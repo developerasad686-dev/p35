@@ -1,0 +1,186 @@
+{% extends 'apps/base.html' %}
+{% load static %}
+{% block title %}
+Product Detail page
+{% endblock %}
+{% block content %}
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="product-slider position-relative">
+          <div class="owl-carousel owl-theme position-lg-absolute l-0 t-0 h-100 product-images"
+            data-owl-carousel-controller=".product-thumbs"
+            data-options='{"items":1,"nav":true,"dots":false,"slideBy":1}'>
+            {% for product_image in product.images.all %}
+            <div class="item h-100"><img class="rounded h-100 fit-cover" src="{{ product_image.image.url }}" alt="">
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="owl-carousel owl-theme mt-1 product-thumbs"
+          data-options='{"items":5,"nav":true,"mouseDrag":false,"dots":false,"slideBy":1,"margin":4}'>
+          {% for product_image in product.images.all %}
+          <div class="item"><img class="rounded" src="{{ product_image.image.url }}" alt=""></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h5>{{ product.name }}</h5><a class="fs--1 mb-2 d-block" href="#!">{{ product.category.name }}</a><a
+          class="fs--2 mb-3 d-inline-block text-decoration-none" href="#review" data-tab-target="#review"
+          data-fancyscroll data-offset="80"><span class="fa fa-star text-warning"></span><span
+            class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span
+            class="fa fa-star text-warning"></span><span class="fa fa-star-half-alt text-warning star-icon"></span><span
+            class="ml-1 text-600">(8)</span></a>
+        <p class="fs--1">{{ product.short_description }}</p>
+        <h4 class="d-flex align-items-center"><span class="text-warning mr-2">${{ product.discounted_price}}</span><span class="mr-1 fs--1 text-500">
+            <del class="mr-1">${{ product.price }}</del><strong>-{{ product.discount }}%</strong></span></h4>
+        <p class="fs--1 mb-1"> <span>Shipping Cost: </span><strong>${{ product.shipping_cost }}</strong></p>
+        <p class="fs--1">Stock: <strong class="text-success">{{ product.quantity }}</strong></p>
+        <p class="fs--1 mb-3">Tags:
+          {% for tag in product.tags.all %}
+          <a class="ml-2" href="#!">{{ tag.name }},</a>
+          {% endfor %}
+        </p>
+        <div class="row">
+          <div class="col-auto pr-0">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
+                  data-type="minus">-</button>
+              </div>
+              <input class="form-control text-center input-quantity input-spin-none" type="number" min="0" value="0"
+                aria-label="Amount (to the nearest dollar)" style="max-width: 50px">
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-outline-secondary border-300" data-field="input-quantity"
+                  data-type="plus">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto"><a class="btn btn-sm btn-primary" href="#!"><span class="fas fa-cart-plus"></span> Add
+              To Cart</a></div>
+          <div class="col-sm-auto pl-3 pl-sm-0"><a class="btn btn-sm btn-outline-danger border-300 mr-2 mt-2 mt-sm-0"
+              href="#!" data-toggle="tooltip" data-placement="top" title="Add to Wish List"><span
+                class="far fa-heart mr-1"></span>282</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="fancy-tab overflow-hidden mt-4">
+          <div class="nav-bar">
+            <div class="nav-bar-item active pl-0 pr-2 pr-sm-4">
+              <div class="mt-1 fs--1">Description</div>
+            </div>
+            <div class="nav-bar-item px-2 px-sm-4">
+              <div class="mt-1 fs--1">Specifications</div>
+            </div>
+            <div class="nav-bar-item px-2 px-sm-4" id="review">
+              <div class="mt-1 fs--1">Reviews</div>
+            </div>
+          </div>
+          <div class="tab-contents">
+            <div class="tab-content active">
+              <p>{{ product.description }}</p>
+            </div>
+            <div class="tab-content">
+              <table class="table table-bordered fs--1">
+                <tbody>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Processor</td>
+                    <td>2.3GHz quad-core Intel Core i5,</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Memory</td>
+                    <td>8GB of 2133MHz LPDDR3 onboard memory</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Brand Name</td>
+                    <td>Apple</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Model</td>
+                    <td>Mac Book Pro</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Display</td>
+                    <td>13.3-inch (diagonal) LED-backlit display with IPS technology</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Storage</td>
+                    <td>512GB SSD</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Graphics</td>
+                    <td>Intel Iris Plus Graphics 655</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Weight</td>
+                    <td>7.15 pounds</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-100" style="width: 30%;">Finish</td>
+                    <td>Silver, Space Gray</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tab-content">
+              <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                  <div class="mb-1"><span class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="ml-3 text-dark font-weight-semi-bold">Awesome support, great code 😍</span>
+                  </div>
+                  <p class="fs--1 mb-2 text-600">By Drik Smith • October 14, 2019</p>
+                  <p class="mb-0">You shouldn't need to read a review to see how nice and polished this theme is. So
+                    I'll tell you something you won't find in the demo. After the download I had a technical question,
+                    emailed the team and got a response right from the team CEO with helpful advice.</p>
+                  <hr class="my-4">
+                  <div class="mb-1"><span class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star text-warning fs--1"></span><span
+                      class="fa fa-star-half-alt text-warning star-icon fs--1"></span><span
+                      class="ml-3 text-dark font-weight-semi-bold">Outstanding Design, Awesome Support</span>
+                  </div>
+                  <p class="fs--1 mb-2 text-600">By Liane • December 14, 2019</p>
+                  <p class="mb-0">This really is an amazing template - from the style to the font - clean layout. SO
+                    worth the money! The demo pages show off what Bootstrap 4 can impressively do. Great template!!
+                    Support response is FAST and the team is amazing - communication is important.</p>
+                  <hr class="my-4">
+                </div>
+                <div class="col-lg-6 pl-lg-5">
+                  <form>
+                    <h5 class="mb-3">Write your Review</h5>
+                    <div class="form-group">
+                      <label>Rating:</label>
+                      <div class="raty"></div>
+                    </div>
+                    <div class="form-group">
+                      <label>Name:</label>
+                      <input class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                      <label>Email:</label>
+                      <input class="form-control" type="email">
+                    </div>
+                    <div class="form-group">
+                      <label>Review:</label>
+                      <textarea class="form-control" rows="2"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
