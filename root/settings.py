@@ -81,8 +81,13 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 import urllib.parse as _urllib_parse
 
-if os.environ.get('DATABASE_URL'):
-    _db_url = _urllib_parse.urlparse(os.environ['DATABASE_URL'])
+_DATABASE_URL = (
+    os.environ.get('DATABASE_URL')
+    or os.environ.get('DATABASE_POSTGRES_URL')
+    or os.environ.get('POSTGRES_URL')
+)
+if _DATABASE_URL:
+    _db_url = _urllib_parse.urlparse(_DATABASE_URL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
